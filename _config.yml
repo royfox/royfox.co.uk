@@ -1,0 +1,48 @@
+title: royfox.co.uk
+description: >-
+  Hello.
+baseurl: "" # the subpath of your site, e.g. /blog
+url: "" 
+
+twitter:
+  username: royfox
+  
+excerpt_separator: <!--more-->
+
+# Build settings
+markdown: kramdown
+theme: minimal-mistakes-jekyll
+plugins:
+  - jekyll-feed
+
+minimal_mistakes_skin    : "default" # "air", "aqua", "default", "contrast", "dark", "dirt", "neon", "mint", "plum", "sunrise"
+
+show_excerpts: false
+
+defaults:
+  # _posts
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: single
+      author_profile: false
+      read_time: true
+      comments: false
+      share: false
+      related: true
+
+paginate: 5 # amount of posts to show
+paginate_path: /page:num/
+
+# Site Author
+author:
+  name             : "Roy Fox"
+  avatar           : assets/img/me.jpg
+  bio              : >-
+   Roy is a data scientist working at <a href = "http://www.footballradar.com">Football Radar</a>. 
+   He sometimes writes <a href = "http://www.soundcloud.com/royfox">music</a>, <a href = "http://www.theindifferent.co.uk">satire</a>, or short biographies in the third person. 
+   Some say he does none of these things well. 
+  location         : "London"
+  soundcloud       : royfox
+  twitter          : royfox

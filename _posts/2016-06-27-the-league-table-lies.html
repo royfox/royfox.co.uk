@@ -1,0 +1,423 @@
+---
+layout: single
+title:  "The league table always lies"
+date:   2016-06-27 22:04:50 +0000
+excerpt: "In football, the league table lies. A lot. Seriously dude, it lies all the time. But don't worry - that's actually a good thing."
+---
+
+<p><em><small>This post was originally published on the <a href = "https://engineering.footballradar.com/does-the-league-table-lie/">Football Radar engineering blog</a>.</small></em></p>
+
+<p>You've probably heard the old football cliche "the league table never lies". There's one literal way to read this statement: all that matters is the final league table, and it doesn't matter whether you deserved what you got or not. I think there's a more common meaning, however: that at the end of a season teams get what they deserve, and that the final league table is an accurate and fair reflection of the strength of the teams. If you win the league, you were the best team. If you finish bottom, you were the worst.</p>
+
+<p>Is that true? Is it a fair reflection of the performance of the teams? I’m going to argue that the league table lies. A lot. Seriously dude, it lies all the time. But don't worry – that's actually a good thing.</p>
+<!--more-->
+<p>The funny thing is, while people often find it hard to accept that teams could finish in an unfair place at the end of a season, pretty much everyone accepts that the result of a single game can be unfair. Perhaps your team dominated, but the other team won through a deflected pot-shot or a bad refereeing decision. I think most fans, managers and pundits accept that the result of a single game can be a bit random, but they assume that luck evens out of the course of the season. But why should luck even out over 38 games? Why not 5, or 10, or 1000?</p>
+
+<p>I think actually it’s pretty easy to persuade yourself that the final league table lies at least a <em>little</em> bit. Here’s a quick thought experiment: imagine the referee gives an incorrect penalty in the last minute of the last game of the season. It was clearly outside the box, but the referee’s mistake robs your team of two points and costs you the title. Of course, if the league table isn’t lying, you must have overachieved by exactly two points during the first 37 games. You had to drop two points due to bad luck in this last game, so the penalty was inevitable. In fact, the whole thing was predetermined and there wasn’t really any point playing the game at all. This is obviously a pretty absurd conceit, and a far more sensible explanation is that the league table can lie at least a <em>little</em> bit. But can we actually work out how much it lies by?</p>
+
+<p>As humans, we often tend to suffer from <a href="https://en.wikipedia.org/wiki/Hindsight_bias">hindsight bias</a> – after the fact we like to think an event was predictable and that we could have seen the result coming, even if that wasn’t actually possible before. We also tend to struggle with randomness in general, and we often think we can see patterns where really they don’t exist. To try and work out what’s going on with the league table, we want to try and sidestep these two biases. The key to our approach here is the assumption that <strong>what happens in a football match is just one of the many things that could have happened</strong>. What we want is to work out the other things that could have happened, and we can do that by setting up a simple model.</p>
+
+<p>OK, so let’s build a simple football model. We can assume the goals for each team in a match are independently Poisson distributed. This means that goals arrive at a constant rate, and one team’s goals don’t affect the other team’s goals. Those things aren’t quite true in practice, but this model should be good enough for our league table experiment.</p>
+
+<p>We can use the Poisson distribution to get a probability distribution for every game:</p>
+
+<ul>
+<li>Let’s say each team can get from 0-9 goals per game.</li>
+<li>That gives us 100 possible scores per game, from 0-0 (quite likely) right up to 9-9 (not so much)</li>
+</ul>
+
+<p>We could try and use this to predict every possible way a Premier League season could play out. There are 380 games in a Premier League season, so the number of ways this season can play out is 100<sup>380</sup> = 10<sup>760</sup>. That's a pretty big number, though – to put things into perspective, the number of atoms in the universe is probably about 10<sup>78</sup>.</p>
+
+<p>This means we can’t calculate every possible way the league could have played out – there are just too many. But what we can do instead is simulate the league lots of times. There’s something helpful here called the <a href="https://en.wikipedia.org/wiki/Law_of_large_numbers">law of large numbers</a>, which means that if we do a random experiment lots of times, the average result should be close to the expected value. This also makes intuitive sense: we don’t need to play out a season 10<sup>760</sup> times to be confident that we’ve understood the league. If we simulate a league thousands of times and a particular outcome never happens, it probably isn't that important.</p>
+
+<p>Let’s make a simple example to begin with. We define a league with 20 teams of exactly equal strength. In real life we might expect to see about 2.6 goals per game on average, so let’s say each team will score 1.3 goals per game, and use that as our Poisson rate for each team. That means in each game, the probabilities for how many goals each team will score look a bit like this:</p>
+
+<p><img src="/assets/img/poisson.png" alt="" class="full-img"></p>
+
+<p>We then generate random numbers and use those to pick a random result for each game. We do that for the whole season, and then repeat the whole season many times.</p>
+
+<p><em>Note that although I’ve used real team names here, the key point to remember here is that all teams are equal by definition: they all have the same strength and the same chance of winning each game.</em></p>
+
+<p>If we look at the results of 10,000 simulations we can see the law of large numbers in action: all teams get about the same amount of points – just under 52 points on average. (although note that they still don't get an identical number of points – those numbers will get closer together the more simulations we do, but they will never be totally identical).</p>
+
+<table><tbody>  
+<tr>  
+<th>Team</th>  
+<th>Points</th>  
+</tr>  
+<tr>  
+<td>Chelsea</td>  
+<td>51.91</td>  
+</tr>  
+<tr>  
+<td>Swansea</td>  
+<td>51.89</td>  
+</tr>  
+<tr>  
+<td>Sunderland</td>  
+<td>51.85</td>  
+</tr>  
+<tr>  
+<td>Tottenham Hotspur</td>  
+<td>51.84</td>  
+</tr>  
+<tr>  
+<td>Crystal Palace</td>  
+<td>51.8</td>  
+</tr>  
+<tr>  
+<td>Aston Villa</td>  
+<td>51.8</td>  
+</tr>  
+<tr>  
+<td>Manchester United</td>  
+<td>51.77</td>  
+</tr>  
+<tr>  
+<td>Watford</td>  
+<td>51.77</td>  
+</tr>  
+<tr>  
+<td>Newcastle United</td>  
+<td>51.74</td>  
+</tr>  
+<tr>  
+<td>Manchester City</td>  
+<td>51.74</td>  
+</tr>  
+<tr>  
+<td>Stoke City</td>  
+<td>51.73</td>  
+</tr>  
+<tr>  
+<td>Liverpool</td>  
+<td>51.73</td>  
+</tr>  
+<tr>  
+<td>Leicester City</td>  
+<td>51.72</td>  
+</tr>  
+<tr>  
+<td>Norwich City</td>  
+<td>51.7</td>  
+</tr>  
+<tr>  
+<td>Bournemouth</td>  
+<td>51.7</td>  
+</tr>  
+<tr>  
+<td>Southampton</td>  
+<td>51.67</td>  
+</tr>  
+<tr>  
+<td>West Ham United</td>  
+<td>51.66</td>  
+</tr>  
+<tr>  
+<td>West Bromwich Albion</td>  
+<td>51.66</td>  
+</tr>  
+<tr>  
+<td>Arsenal</td>  
+<td>51.64</td>  
+</tr>  
+<tr>  
+<td>Everton</td>  
+<td>51.61</td>  
+</tr>  
+</tbody></table>
+
+<p>This is our “expected value”, and it makes intuitive sense that this is correct: the teams are equal by definition, so they must all get the same number of points if the league table isn’t lying. We could say that 52 points is the “fair” number of points each team should get here. But that’s what we get if we play the league out 10,000 times and take an average. What happens if we just play out one season, like we would in real life?</p>
+
+<table><tbody>  
+<tr>  
+<th>Team</th>  
+<th>Points</th>  
+</tr>  
+<tr>  
+<td>Bournemouth</td>  
+<td>66</td>  
+</tr>  
+<tr>  
+<td>Southampton</td>  
+<td>61</td>  
+</tr>  
+<tr>  
+<td>Norwich City</td>  
+<td>61</td>  
+</tr>  
+<tr>  
+<td>West Bromwich Albion</td>  
+<td>58</td>  
+</tr>  
+<tr>  
+<td>Swansea</td>  
+<td>56</td>  
+</tr>  
+<tr>  
+<td>Arsenal</td>  
+<td>56</td>  
+</tr>  
+<tr>  
+<td>Manchester City</td>  
+<td>55</td>  
+</tr>  
+<tr>  
+<td>Tottenham Hotspur</td>  
+<td>55</td>  
+</tr>  
+<tr>  
+<td>Manchester United</td>  
+<td>54</td>  
+</tr>  
+<tr>  
+<td>Newcastle United</td>  
+<td>51</td>  
+</tr>  
+<tr>  
+<td>Aston Villa</td>  
+<td>51</td>  
+</tr>  
+<tr>  
+<td>West Ham United</td>  
+<td>50</td>  
+</tr>  
+<tr>  
+<td>Sunderland</td>  
+<td>49</td>  
+</tr>  
+<tr>  
+<td>Chelsea</td>  
+<td>48</td>  
+</tr>  
+<tr>  
+<td>Leicester City</td>  
+<td>47</td>  
+</tr>  
+<tr>  
+<td>Watford</td>  
+<td>45</td>  
+</tr>  
+<tr>  
+<td>Everton</td>  
+<td>41</td>  
+</tr>  
+<tr>  
+<td>Stoke City</td>  
+<td>41</td>  
+</tr>  
+<tr>  
+<td>Liverpool</td>  
+<td>40</td>  
+</tr>  
+<tr>  
+<td>Crystal Palace</td>  
+<td>38</td>  
+</tr>  
+</tbody></table>
+
+<p>Remember that the teams are equal, so the fact that Bournemouth win the league here doesn’t really mean anything. The interesting thing is the differences between the teams – even though we have teams that are equal by definition, they don’t end up anywhere near equal after 38 games. The only way the league table isn’t lying is if all teams finish on the same number of points, but in my 10,000 simulations, that didn’t happen once. The league table <em>always</em> lies.</p>
+
+<p>We can actually calculate a few interesting numbers here to try and quantify exactly how much the league tables lies by. For example, the average points difference between top and bottom is a whopping 30 points – if we pick a random season with 20 equal teams, the champions will finish on average 30 points ahead of the bottom team, even though those teams are equal by definition. We can also work out how far teams will finish from their "true" points total. We know teams should get just under 52 points on average, but in individual seasons teams finish 6 points away from that mark on average. So we can say that <strong>for the average team, in the average season, the league table lies by about 6 points</strong>.</p>
+
+<p>Of course, this is all pretty abstract – there’s no such thing a league with 20 completely equal teams. Let’s try the same thing with a more realistic model. This time we change the strength of the teams to be a bit more realistic. These strengths aren’t exactly what our own model thinks about these teams, but that isn’t too important – the main thing is we want the league to be realistic, with a good realistic blend of good and bad teams, and a plausible number of points needed for relegation and the title.</p>
+
+<p>Let’s simulate many thousands of times again. Here’s our new average final table, with the law of large numbers in action again:</p>
+
+<table><tbody>  
+<tr>  
+<th>Team</th>  
+<th>Points</th>  
+</tr>  
+<tr>  
+<td>Manchester City</td>  
+<td>83.55</td>  
+</tr>  
+<tr>  
+<td>Chelsea</td>  
+<td>73.79</td>  
+</tr>  
+<tr>  
+<td>Everton</td>  
+<td>68.55</td>  
+</tr>  
+<tr>  
+<td>Arsenal</td>  
+<td>68.55</td>  
+</tr>  
+<tr>  
+<td>Liverpool</td>  
+<td>60.92</td>  
+</tr>  
+<tr>  
+<td>Tottenham Hotspur</td>  
+<td>60.2</td>  
+</tr>  
+<tr>  
+<td>Leicester City</td>  
+<td>60.18</td>  
+</tr>  
+<tr>  
+<td>Manchester United</td>  
+<td>57.99</td>  
+</tr>  
+<tr>  
+<td>Southampton</td>  
+<td>51.02</td>  
+</tr>  
+<tr>  
+<td>Bournemouth</td>  
+<td>50.42</td>  
+</tr>  
+<tr>  
+<td>Swansea</td>  
+<td>49.98</td>  
+</tr>  
+<tr>  
+<td>Newcastle United</td>  
+<td>48.57</td>  
+</tr>  
+<tr>  
+<td>Norwich City</td>  
+<td>45.98</td>  
+</tr>  
+<tr>  
+<td>West Ham United</td>  
+<td>45.02</td>  
+</tr>  
+<tr>  
+<td>Watford</td>  
+<td>40.92</td>  
+</tr>  
+<tr>  
+<td>Crystal Palace</td>  
+<td>39.32</td>  
+</tr>  
+<tr>  
+<td>Stoke City</td>  
+<td>38.37</td>  
+</tr>  
+<tr>  
+<td>Sunderland</td>  
+<td>37.62</td>  
+</tr>  
+<tr>  
+<td>West Bromwich Albion</td>  
+<td>35.87</td>  
+</tr>  
+<tr>  
+<td>Aston Villa</td>  
+<td>27.51</td>  
+</tr>  
+</tbody></table>
+
+<p>Now here’s a single simulation for the same teams:</p>
+
+<table><tbody>  
+<tr>  
+<th>Team</th>  
+<th>Points</th>  
+</tr>  
+<tr>  
+<td>Manchester City</td>  
+<td>82</td>  
+</tr>  
+<tr>  
+<td>Leicester City</td>  
+<td>72</td>  
+</tr>  
+<tr>  
+<td>Manchester United</td>  
+<td>67</td>  
+</tr>  
+<tr>  
+<td>Liverpool</td>  
+<td>66</td>  
+</tr>  
+<tr>  
+<td>Tottenham Hotspur</td>  
+<td>63</td>  
+</tr>  
+<tr>  
+<td>Chelsea</td>  
+<td>61</td>  
+</tr>  
+<tr>  
+<td>Arsenal</td>  
+<td>60</td>  
+</tr>  
+<tr>  
+<td>West Ham United</td>  
+<td>56</td>  
+</tr>  
+<tr>  
+<td>Watford</td>  
+<td>56</td>  
+</tr>  
+<tr>  
+<td>Everton</td>  
+<td>55</td>  
+</tr>  
+<tr>  
+<td>Bournemouth</td>  
+<td>54</td>  
+</tr>  
+<tr>  
+<td>Swansea</td>  
+<td>52</td>  
+</tr>  
+<tr>  
+<td>Southampton</td>  
+<td>46</td>  
+</tr>  
+<tr>  
+<td>Norwich City</td>  
+<td>45</td>  
+</tr>  
+<tr>  
+<td>Crystal Palace</td>  
+<td>45</td>  
+</tr>  
+<tr>  
+<td>Stoke City</td>  
+<td>38</td>  
+</tr>  
+<tr>  
+<td>Newcastle United</td>  
+<td>35</td>  
+</tr>  
+<tr>  
+<td>West Bromwich Albion</td>  
+<td>32</td>  
+</tr>  
+<tr>  
+<td>Aston Villa</td>  
+<td>31</td>  
+</tr>  
+<tr>  
+<td>Sunderland</td>  
+<td>25</td>  
+</tr>  
+</tbody></table>
+
+<p>Again, we see quite a bit of variation. Leicester overachieve by 12 points to finish 2nd, Manchester United overachieve by 9 points to finish 3rd. In fact, 3 of the 4 teams who should have been in the Champions League finished outside the Top 4.</p>
+
+<p>It turns out that the average deviation from a team’s "fair" points value is still about 6 points, the same as the version with 20 equal teams. Another interesting titbit here is that the average largest deviation from expected value is about 16 points. That sounds a bit theoretical, but in practice, this means in an average Premier League season, one team will over or underperform by about 16 points. It’s also interesting to note that the lucky and unlucky teams tend to be at the top and the bottom of the league respectively, and this makes sense if you think back to our example where all teams were totally equal: by definition the winners are lucky, and the losers are unlucky. To win the league, unless you have a Bayern Munich or PSG level of dominance, you probably need to be both good and lucky.</p>
+
+<p><strong>So how many games would we need to play before the league table stops lying?</strong></p>
+
+<p>Let's try and pin in numerical terms what we really mean when we say the league table lies. Let’s say for arguments sake that it means that you’re within 1 point of where you deserve to be at the end of the season.</p>
+
+<p>We can use our simulations to calculate how likely it is that you finish within a certain number of points of your true position. So for example, we can calculate here for Arsenal that there’s only a 10% chance that they finish within 1 point of their true total (what this means in practice is that’s where they finished in 10% of the simulations). There’s a 90% chance the league table is lying for Arsenal according to our definition.</p>
+
+<p>That’s a bit disappointing. If the league table is lying this much after 38 games, how many games do we really need? 1 point works out to about 2% of an average team’s points, so let’s say that the league table doesn’t lie when a team’s points total is within 2% of their expected points total. How many games do we need for that?</p>
+
+<p>If we play 2 seasons, 76 games for each team, a team will over or underachieve by 8% on average. For 5 seasons, that drops to 5.5%. For 10 seasons, it’s 3.8%. For 20 seasons, it’s 2.7%. I’m a bit bored of running all these simulations, so let's say that’s close enough. If we really want a league table that’s fair, all we need is for every team to play 760 games a season. Easy.</p>
+
+<p>It might be a bit hard to organise a 760 games season every year, however, and I bet even baseball fans will think that’s a bit extreme. In a league with teams of reasonably similar strength, it’s basically not possible to have a football competition where you can be absolutely sure that best team wins, and that everyone gets what they deserve.</p>
+
+<p><strong>Randomness is a good thing</strong></p>
+
+<p>The thing is, this is actually a very good thing. Sports that are not random at all are boring. There are never any surprises, everything is predetermined, so there’s no point watching. But sports that are 100% pure randomness are also boring. If the whole thing is effectively a coin toss, what’s the point? Tactics, training, skill, athleticism – none of those means anything anymore. We need a sweet spot in the middle, where luck will play a role, but is well balanced with skill.</p>
+
+<p>My pet theory – based on literally zero evidence – is that football occupies this sweet spot, which is one of the many reasons why football is the world's best sport. It’s not as predictable as tennis, but it’s more predictable than baseball. Over a whole season in football, the best team will usually win, but sometimes a team like Leicester will win, and that’s totally fine.</p>
