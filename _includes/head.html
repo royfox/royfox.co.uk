@@ -1,0 +1,83 @@
+<meta charset="utf-8">
+
+{% include seo.html %}
+
+<link href="{% if site.atom_feed.path %}{{ site.atom_feed.path }}{% else %}{{ '/feed.xml' | absolute_url }}{% endif %}" type="application/atom+xml" rel="alternate" title="{{ site.title }} Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="{{ '/assets/css/main.css' | absolute_url }}">
+<link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet">
+
+<style>
+    a.site-title { font-family: 'Pacifico', cursive; font-size:25px; color: #bbb;  }
+    a.site-title:hover { color: #d6942a; }
+    .masthead { border-bottom: 0;}
+    .masthead__inner-wrap { padding: 0.5em 1.2em 0; }
+    #main { margin-top: 1em; }
+
+    /* Pop, from https://github.com/IanLunn/Hover */
+    @-webkit-keyframes site-title {
+        50% {
+            -webkit-transform: scale(1.1);
+            transform: scale(1.1);
+        }
+    }
+    @keyframes site-title {
+        50% {
+            -webkit-transform: scale(1.1);
+            transform: scale(1.1);
+        }
+    }
+    .site-title {
+        display: inline-block;
+        vertical-align: middle;
+        -webkit-transform: perspective(1px) translateZ(0);
+        transform: perspective(1px) translateZ(0);
+        box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+    }
+    .site-title:hover, .site-title:focus, .site-title:active {
+        -webkit-animation-name: site-title;
+        animation-name: site-title;
+        -webkit-animation-duration: 0.3s;
+        animation-duration: 0.3s;
+        -webkit-animation-timing-function: linear;
+        animation-timing-function: linear;
+        -webkit-animation-iteration-count: 1;
+        animation-iteration-count: 1;
+    }
+</style>
+
+<!--[if lte IE 9]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+{% if site.head_scripts %}
+  {% for script in site.head_scripts %}
+    {% if script contains "://" %}
+      {% capture script_path %}{{ script }}{% endcapture %}
+    {% else %}
+      {% capture script_path %}{{ script | absolute_url }}{% endcapture %}
+    {% endif %}
+    <script src="{{ script_path }}"></script>
+  {% endfor %}
+{% endif %}
