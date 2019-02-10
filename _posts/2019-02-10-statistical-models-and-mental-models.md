@@ -1,7 +1,7 @@
 ---
 layout: single
 title:  "Statistical models and mental models"
-date:   2019-02-10 12:12:50 +0000
+date:   2019-02-05 12:12:50 +0000
 excerpt: "All mental models are wrong, but some are useful."
 ---
 
