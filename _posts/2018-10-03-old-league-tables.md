@@ -1,8 +1,8 @@
 ---
 layout: single
-title:  "The Way Things Were"
+title:  "oldleaguetables.com"
 date:   2018-10-03 22:04:50 +0000
-excerpt: "A little website for looking at old league tables."
+excerpt: "A little football web app to help give a bit of historical perspective."
 ---
 
 I sometimes like looking at old league tables. It can be useful to put current league tables in some kind historical perspective: how remarkable is what we're seeing now, compared to what we saw in the past? The thing I usually want to see

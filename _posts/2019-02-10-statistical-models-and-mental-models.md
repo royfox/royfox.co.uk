@@ -1,0 +1,40 @@
+---
+layout: single
+title:  "Statistical models and mental models"
+date:   2019-02-10 12:12:50 +0000
+excerpt: "All mental models are wrong, but some are useful."
+---
+
+In my current life as a data scientist, I often build statistical models.  Sometimes, I try and explain to people what it means to build models. To be honest, I’m not always sure they care as much about this as I do, but to me it's quite an important question. If we aren't clear about what a model is and isn't, we can't be sure how to interpret it. 
+
+I find the typical textbook definitions of statistical models a bit unsatisfying. “A statistical model is a mathematical model that embodies a set of statistical assumptions concerning the generation of some sample data and similar data from a larger population”, [says Wikipedia](https://en.wikipedia.org/wiki/Statistical_model). I mean, sure, but that's perhaps a bit too dry and technical for most people to follow. 
+
+Of course, I’m far from the first person to ever think about this subject, and I think my favourite definition of a model is actually [fairly well known](https://en.wikipedia.org/wiki/All_models_are_wrong#Comments_and_discussions): **"A model is a simplification or approximation of reality"**.
+
+I like this quote, because although it’s a quote by statisticians, about statistical models, it hold up well for every other kind of model too. 
+
+When we make a statistical model, we use a bit of maths to encode a simplified set of assumptions about the world. "Let's pretend the world behaves in this simple way", we say. "If we do, what can we then learn or predict from our data?". This simplification is unavoidable, since any system we're interested in understanding with statistics – be it the human body, or human society, or usually [sports in my case](https://www.footballradar.com/) – clearly can't be described precisely with just a few formulae. No model contains any objective truth, but we build them anyway, because even our simplified versions of reality can help us understand the world and make useful predictions about it. ["All models are wrong, but some are useful"](https://en.wikipedia.org/wiki/All_models_are_wrong), the famous saying goes. 
+
+It's important that we remember that our models aren't reality. Are their assumptions sensible, and could we improve them? And if all models are wrong, but some are useful, is ours one of the useful ones?
+
+### Mental models
+
+If I asked you to categorise someone's political views, how would you do it? Many people would probably try and position that person on a scale from Left to Right, or from Liberal to Conservative. People's views don't really exist on a straightforward scale from Left to Right, of course – why should they? It's just a model: a simplified way of thinking about the world that's easier to work with than reality. After all, it would surely be overwhelming to try and understand the nuances of the political beliefs of everyone you ever meet, so _some_ kind of model seems pretty sensible here. This is all I mean by a mental model here – a mental abstraction or a thought process that we use to think about something in the real world. What politics does your friend have? "Oh, they're left wing". 
+
+
+If you use a mental model like this one a lot, it's probably tempting to start pretending that it really is reality, but it isn't – and once you realise it's a model, of course, you can start to question it the same way that you might question a statistical model. What are the assumptions behind it? Do they make sense? 
+
+The left-right model is a fairly obvious one, and lots of people have probably felt at some point that it doesn't really capture their political views particularly well. Some think that [open–closed](https://en.wikipedia.org/wiki/Open%E2%80%93closed_political_spectrum) is a more useful model than left-right at the moment, and there are [plenty of other alternatives too](https://en.wikipedia.org/wiki/Political_spectrum). 
+
+There are more subtle model hiding in plain sight out there, however. A particularly influential – and perhaps sometimes pernicious – model is [GDP](https://en.wikipedia.org/wiki/Gross_domestic_product). It's easy to conflate GDP with the performance of an economy, and by extension, the wellbeing of a nation. But GDP isn't the economy. It's a model of the economy, and [the economy is much harder to model than many people probably realise](https://www.ft.com/content/b6182440-f21e-11e7-bb7d-c3edfe974e9f). You may remember the mini-scandal when [drugs and prostitution added £10bn](https://www.ft.com/content/65704ba0-e730-11e3-88be-00144feabdc0) to the UK economy, but in reality, nothing much changed about the economy: it was our model of the economy that changed. 
+
+Are all the struggles of millennials [the fault of the baby boomers?](https://www.theguardian.com/society/2018/apr/29/millennials-struggling-is-it-fault-of-baby-boomers-intergenerational-fairness). Well, first of all, that's a framing that involves bundling an entire generation of people into a single bucket. It's up to you to decide whether that model is useful. 
+
+How would you describe your personality? If you call yourself an [ESTJ](https://en.wikipedia.org/wiki/ESTJ), or something similar, you're probably a fan of the Myers-Briggs personality test. If you're not familiar with Myers-Briggs, it's a personality test: you answer a bunch of questions and are assigned 1 of 16 personality types. There aren't exactly 16 personality types, because _of course there aren't_. It's a model. The reason personality tests are interesting is that I've met plenty of people who talk about them seemingly without any appreciation that they're models. They really think they are an [extrovert, who prefers sensing to intution, thinking to feeling, and judgement to perception](https://en.wikipedia.org/wiki/ESTJ), without realising just [how flimsy that diagnosis might be](https://www.vox.com/2014/7/15/5881947/myers-briggs-personality-test-meaningless). I'm picking on Myers-Briggs here just because it's perhaps the most public – or at least, publicly criticised – of the personality models. There are many such models if you're into that kind of thing, like the [Big 5](https://en.wikipedia.org/wiki/Big_Five_personality_traits), or [HEXACO](https://en.wikipedia.org/wiki/HEXACO_model_of_personality_structure), but because they're models, we can interrogate them to work out how useful they are. How likely are you to get the same results if you take the same test more than once? How well can the models predict future behaviour? 
+
+There are so many things in the world that we have mental models about, it's unrealistic for us to be aware of all of them, let alone skeptical of all of them too. To survive in the world we just seem to rely too much on the kind of fast, associative decisions categorised as "System 1"[^system1] by Daniel Kahneman in his famous book ["Thinking, Fast and Slow"](https://en.wikipedia.org/wiki/Thinking,_Fast_and_Slow). After all, if we were able to think critically and dispassionately about every situation we encountered, the [list of apparent cognitive biases on Wikipedia](https://en.wikipedia.org/wiki/List_of_cognitive_biases) wouldn't be so comically large[^biases]. But if we can bring the mindset we need when considering statistical models – which at heart, is perhaps just curiosity and scepticism more than anything – we can start to interrogate some of our mental models a little more, and maybe understand the world a little better too. 
+
+
+[^biases]: In practice, it seems a bit silly to say we have these "biases", with the implication that biases are mistakes. I suspect that this is because, fittingly, we need a better model of human cognition. It's not ideal to start from the premise that a human is perfectly rational and then memorize a list of 100 ways in which they aren't, and I suspect that a more intutive framing will arrive in future. 
+
+[^system1]: For those playing along at home, System 1 and System 2 is, of course, a model.
