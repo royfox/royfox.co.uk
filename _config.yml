@@ -46,3 +46,5 @@ author:
   location         : "London"
   soundcloud       : royfox
   twitter          : royfox
+
+include: ['_redirects']
